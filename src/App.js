@@ -12,9 +12,7 @@ function Square({ value, onSquareClick }) {
 
 // 'export' makes the Square() accessible outside the file
 // 'default' tells other files using our code that it's the main funciton in the our file
-export default function Board() {
-    const [xIsNext, setXIsNext] = useState(true);
-    const [squares, setSquares] = useState(Array(9).fill(null));
+function Board({ xIsNext, squares, onPlay }) {
     const winner = calculateWinner(squares);
     let status;
 
@@ -26,8 +24,7 @@ export default function Board() {
             } else {
               nextSquares[i] = 'O';
             }
-            setSquares(nextSquares);
-            setXIsNext(!xIsNext);
+            onPlay(nextSquares);
         }
     }
 
@@ -79,4 +76,27 @@ function calculateWinner(squares) {
       }
     }
     return winner;
+  }
+
+  export default function Game() {
+    const [xIsNext, setXIsNext] = useState(true);
+    const [history, setHistory] = useState([Array(9).fill(null)]);
+    const currentSquares = history[history.length - 1];
+
+    function handlePlay(nextSquares) {
+        setHistory([...history, nextSquares]);
+        setXIsNext(!xIsNext);
+    }
+
+
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+            </div>
+            <div className="game-info">
+                <ol>{/*Todo*/}</ol>
+            </div>
+        </div>
+    );
   }
