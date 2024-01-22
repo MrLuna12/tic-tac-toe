@@ -57,6 +57,30 @@ function Board({ xIsNext, squares, onPlay }) {
   );
 }
 
+
+export default function Game() {
+    const [xIsNext, setXIsNext] = useState(true);
+    const [history, setHistory] = useState([Array(9).fill(null)]);
+    const currentSquares = history[history.length - 1];
+
+    function handlePlay(nextSquares) {
+        setHistory([...history, nextSquares]);
+        setXIsNext(!xIsNext);
+    }
+
+
+    return (
+        <div className="game">
+            <div className="game-board">
+                <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
+            </div>
+            <div className="game-info">
+                <ol>{/*Todo*/}</ol>
+            </div>
+        </div>
+    );
+}
+
 function calculateWinner(squares) {
     let winner = null;
     const lines = [
@@ -76,6 +100,7 @@ function calculateWinner(squares) {
       }
     }
     return winner;
+<<<<<<< HEAD
   }
 
   export default function Game() {
@@ -100,3 +125,6 @@ function calculateWinner(squares) {
         </div>
     );
   }
+=======
+}
+>>>>>>> cd8d9eff (updated ignored files)
